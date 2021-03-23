@@ -5,7 +5,12 @@ import cssClasses from "./burger.css";
 
 class Burger extends React.Component {
 
-  transformIngredient = Object.keys(this.props.ingredients)
+ 
+
+
+
+  render() {
+     this.transformIngredient = Object.keys(this.props.ingredients)
     .map((ijKey) => {
       return [...Array(this.props.ingredients[ijKey])].map((_, i) => (
         <BurgerIngredient key={i + ijKey} type={ijKey} />
@@ -14,10 +19,7 @@ class Burger extends React.Component {
     .reduce((arr, el) => {
       return arr.concat(el);
     }, []);
-
-
-
-  render() {
+    // console.log(this.props.ingredients)
         if(this.transformIngredient.length === 0){
             this.transformIngredient = <p>Please start adding ingredients !!</p>
         }
