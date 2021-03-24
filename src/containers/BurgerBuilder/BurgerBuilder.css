@@ -1,26 +1,22 @@
-.Burger {
-      width: auto;
-      margin: auto;
-      height: 250px;
-      overflow: auto;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.2rem;
+.BurgerBuilder {
+      /* mobile first */
+      border: 1px solid red;
+      display: block;
+      align-items: center;
+      padding: 1rem;
 }
-
 /* 
-  ##Device = Desktops
+  ##Device =  ! Desktops
   ##Screen = 1281px to higher resolution desktops
 */
 
 @media (min-width: 1281px) {
-      .Burger {
-
-            width: 450px;
-      }
 
       /* CSS */
-
+      .BurgerBuilder{
+            display: flex;
+            justify-content: space-between;
+      }
 
 }
 
@@ -32,11 +28,11 @@
 @media (min-width: 1025px) and (max-width: 1280px) {
 
       /* CSS */
-
-      .Burger {
-
-            width: 450px;
+      .BurgerBuilder{
+            display: flex;
+            justify-content: space-between;
       }
+
 
 }
 
@@ -48,11 +44,11 @@
 @media (min-width: 768px) and (max-width: 1024px) {
 
       /* CSS */
-
-      .Burger {
-
-            width: 350px;
+      .BurgerBuilder{
+            display: flex;
+            justify-content: space-between;
       }
+
 
 }
 
@@ -64,10 +60,11 @@
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
 
       /* CSS */
-      .Burger {
-
-            width: 300px;
+      .BurgerBuilder{
+            display: flex;
+            justify-content: space-between;
       }
+
 }
 
 /* 
@@ -78,10 +75,11 @@
 @media (min-width: 481px) and (max-width: 767px) {
 
       /* CSS */
-      .Burger {
-
-            width: 300px;
+      .BurgerBuilder{
+            display: flex;
+            justify-content: space-between;
       }
+
 
 }
 
@@ -93,10 +91,5 @@
 @media (min-width: 320px) and (max-width: 480px) {
 
       /* CSS */
-
-      .Burger {
-
-            width: 300px;
-      }
 
 }
