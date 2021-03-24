@@ -3,6 +3,8 @@ import React from "react";
 import Aux from "../../hoc/Aux";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControl/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICE = {
   salad: 0.5,
@@ -20,6 +22,7 @@ class BurgerBuilder extends React.Component {
     },
     totalPrice: 4,
     pushasble: false,
+    purchasing: false,
   };
 
   render() {
@@ -27,11 +30,14 @@ class BurgerBuilder extends React.Component {
       ...this.state.ingredients,
     };
     for (let key in disableInfo) {
-      disableInfo[key] = disableInfo[key] <= 0; // intresting statement
+      disableInfo[key] = disableInfo[key] <= 0; // ? intresting statement
     }
 
     return (
       <Aux>
+        <Modal show={this.state.purchasing}>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           price={this.state.totalPrice}
@@ -39,15 +45,18 @@ class BurgerBuilder extends React.Component {
           purchasble={this.state.pushasble}
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
+          ordered={this.purshaseHandler}
         />
+        
       </Aux>
     );
   }
 
-  updatePurshase() {
-    const ingredient = {
-      ...this.state.ingredients,
-    };
+  purshaseHandler = () => {
+    this.setState({purchasing : true}); 
+  }
+
+  updatePurshase(ingredient) {
     const sum = Object.keys(ingredient)
       .map((igKey) => {
         return ingredient[igKey];
@@ -72,6 +81,7 @@ class BurgerBuilder extends React.Component {
       totalPrice: newPrice,
       ingredients: updatedIngredient,
     });
+    this.updatePurshase(updatedIngredient);
   };
 
   removeIngredientHandler = (type) => {
@@ -91,6 +101,7 @@ class BurgerBuilder extends React.Component {
       totalPrice: newPrice,
       ingredients: updatedIngredient,
     });
+    this.updatePurshase(updatedIngredient);
   };
 }
 export default BurgerBuilder;
