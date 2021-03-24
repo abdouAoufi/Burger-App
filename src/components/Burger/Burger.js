@@ -4,11 +4,6 @@ import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 import cssClasses from "./burger.css";
 
 class Burger extends React.Component {
-
- 
-
-
-
   render() {
      this.transformIngredient = Object.keys(this.props.ingredients)
     .map((ijKey) => {
