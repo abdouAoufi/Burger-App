@@ -6,7 +6,8 @@ import LayoutCss from "./layout.css";
 const layout = (props) => (
   <Aux>
     <div>Toolbar , SideDrawer , Bakckdrop </div>
-    <main className={LayoutCss.Content}>{props.children}</main>
+    <main className={LayoutCss.Content}>{props.children}</main>{" "}
+    {/* ! This in fact will be the BuildBurger Component */}
   </Aux>
 );
 

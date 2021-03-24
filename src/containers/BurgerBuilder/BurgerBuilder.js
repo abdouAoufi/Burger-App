@@ -35,7 +35,7 @@ class BurgerBuilder extends React.Component {
 
     return (
       <Aux>
-        <Modal show={this.state.purchasing}>
+        <Modal show={this.state.purchasing} modalClosed={this.removeBdHandler}>
           <OrderSummary ingredients={this.state.ingredients} />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
@@ -47,14 +47,16 @@ class BurgerBuilder extends React.Component {
           ingredientRemoved={this.removeIngredientHandler}
           ordered={this.purshaseHandler}
         />
-        
       </Aux>
     );
   }
 
+  removeBdHandler = () => {
+    this.setState({ purchasing: false });
+  };
   purshaseHandler = () => {
-    this.setState({purchasing : true}); 
-  }
+    this.setState({ purchasing: true });
+  };
 
   updatePurshase(ingredient) {
     const sum = Object.keys(ingredient)
