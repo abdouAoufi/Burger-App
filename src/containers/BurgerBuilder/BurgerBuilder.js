@@ -35,8 +35,16 @@ class BurgerBuilder extends React.Component {
 
     return (
       <Aux>
-        <Modal show={this.state.purchasing} modalClosed={this.removeBdHandler}>
-          <OrderSummary ingredients={this.state.ingredients} />
+        <Modal
+          show={this.state.purchasing}
+          modalClosed={this.purchaseCancelHandler}
+        >
+          <OrderSummary
+            ingredients={this.state.ingredients}
+            purchaseCancel={this.purchaseCancelHandler}
+            purchaseContinue={this.purchaseContuinueHandler}
+            total={this.state.totalPrice}
+          />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
@@ -51,9 +59,14 @@ class BurgerBuilder extends React.Component {
     );
   }
 
-  removeBdHandler = () => {
+  purchaseCancelHandler = () => {
     this.setState({ purchasing: false });
   };
+
+  purchaseContuinueHandler = () => {
+    alert("You continue");
+  };
+
   purshaseHandler = () => {
     this.setState({ purchasing: true });
   };
