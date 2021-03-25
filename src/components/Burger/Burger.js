@@ -14,7 +14,6 @@ class Burger extends React.Component {
     .reduce((arr, el) => {
       return arr.concat(el);
     }, []);
-    // console.log(this.props.ingredients)
         if(this.transformIngredient.length === 0){
             this.transformIngredient = <p>Please start adding ingredients !!</p>
         }

@@ -26,7 +26,6 @@ class Layout extends React.Component {
           closed={this.sideDrawerClosedHandler}
         />
         <main className={LayoutCss.Content}>{this.props.children}</main>{" "}
-        {/* ! This in fact will be the BuildBurger Component */}
       </Aux>
     );
   }
