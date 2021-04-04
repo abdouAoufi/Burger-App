@@ -23,7 +23,7 @@ class modal extends Component {
     );
   }
 shouldComponentUpdate(nextProps , nextState){
-  return nextProps.show !== this.props.show ;
+  return nextProps.show !== this.props.show || this.props.children !== nextProps.children;
 }
 };
 
