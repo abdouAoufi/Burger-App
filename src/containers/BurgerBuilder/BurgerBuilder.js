@@ -8,7 +8,6 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/WithErrorHandler/WithErrorHandler";
-
 const INGREDIENT_PRICE = {
   salad: 0.5,
   cheese: 0.4,
@@ -22,6 +21,7 @@ class BurgerBuilder extends React.Component {
     pushasble: false,
     purchasing: false,
     loading: false,
+    error: false,
   };
 
   componentDidMount() {
@@ -31,21 +31,21 @@ class BurgerBuilder extends React.Component {
       )
       .then((response) => {
         this.setState({ ingredients: response.data });
-        console.log(response.data)
-        const keys = Object.keys(response.data)
+        const keys = Object.keys(response.data);
         const values = Object.values(response.data);
-        console.log(keys);
-        console.log(values)
-        let result = []; 
-        // for(let i = 0 ; i < keys.length ; i++){
-        //   let key = keys[i] ;
-          
-        //   result.push({key: values[i]}) ;
-        // }
+        let price = this.state.totalPrice;
+        keys.forEach((item, index) => {
+          price += INGREDIENT_PRICE[item] * values[index];
+        });
+        this.setState({ totalPrice: price, pushasble: price > 4 });
+      })
+      .catch((error) => {
+        this.setState({ error: true });
       });
   }
 
   render() {
+    console.log(this.props.match.params);
     const disableInfo = {
       ...this.state.ingredients,
     };
@@ -54,7 +54,13 @@ class BurgerBuilder extends React.Component {
     }
     let orderSummary = null;
 
-    let burger = <Spinner />;
+    let burger = this.state.error ? (
+      <h2 style={{ textAlign: "center", color: "red" }}>
+        Ingredient can't be loaded{" "}
+      </h2>
+    ) : (
+      <Spinner />
+    );
     if (this.state.ingredients) {
       burger = (
         <Aux>
@@ -100,8 +106,17 @@ class BurgerBuilder extends React.Component {
   };
 
   purchaseContuinueHandler = () => {
-    this.setState({ loading: true, purchasing: false });
-    // alert("You continue");
+    const queryprams = [];
+    for(let i in this.state.ingredients){
+      queryprams.push(encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i]))
+    }
+    const queryString = queryprams.join("&");
+    this.props.history.push({ pathname: "/checkout", search: "?"+queryString });
+  };
+
+  sendDataToServer = () => {
+    this.setState({ loading: true, purchasing: true });
+    // this.props.continue(this.state.ingredients);
     const order = {
       ingredients: this.state.ingredients,
       price: this.state.totalPrice,
@@ -112,8 +127,9 @@ class BurgerBuilder extends React.Component {
       },
       deliverMethod: "fatest",
     };
-    axios.post("/orders.json", order).then((responce) => {
+    axios.post("/orders.json", order).then((response) => {
       this.setState({ loading: false, purchasing: false });
+      // this.props.history.push({ pathname: "/checkout" });
     });
   };
 

@@ -7,7 +7,7 @@ export default function burger(props) {
   let transformIngredient = Object.keys(props.ingredients)
     .map((ijKey) => {
       return [...Array(props.ingredients[ijKey])].map((_, i) => (
-        <BurgerIngredient key={i + ijKey} type={ijKey} />
+        <BurgerIngredient key={i + ijKey} type={ijKey} /> // ! draw a burger based on ingrediens 
       ));
     })
     .reduce((arr, el) => {
