@@ -9,7 +9,7 @@ export default function NavigationItems(props) {
         <NavigationItem link="/" active>
           Burger Builder
         </NavigationItem>
-        <NavigationItem link="/"> Check out</NavigationItem>
+        <NavigationItem link="/checkout/"> Check out</NavigationItem>
       </ul>
     </div>
   );

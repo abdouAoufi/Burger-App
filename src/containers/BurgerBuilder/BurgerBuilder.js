@@ -64,7 +64,7 @@ class BurgerBuilder extends React.Component {
     if (this.state.ingredients) {
       burger = (
         <Aux>
-          <Burger ingredients={this.state.ingredients} />
+          <Burger ingredients={this.state.ingredients} waitingText="Please start add some ingredients"/>
           <BuildControls
             price={this.state.totalPrice}
             disabled={disableInfo}
@@ -111,7 +111,7 @@ class BurgerBuilder extends React.Component {
       queryprams.push(encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i]))
     }
     const queryString = queryprams.join("&");
-    this.props.history.push({ pathname: "/checkout", search: "?"+queryString });
+    this.props.history.push({ pathname: "/checkout", search: "?"+queryString , price : 4});
   };
 
   sendDataToServer = () => {

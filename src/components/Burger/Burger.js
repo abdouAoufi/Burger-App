@@ -14,7 +14,7 @@ export default function burger(props) {
       return arr.concat(el);
     }, []);
   if (transformIngredient.length === 0) {
-    transformIngredient = <p>Please start adding ingredients !!</p>;
+    transformIngredient = <p>{props.waitingText}</p>;
   }
   return (
     <div className={cssClasses.Burger}>
