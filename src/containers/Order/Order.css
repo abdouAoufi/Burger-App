@@ -1,0 +1,32 @@
+
+.container {
+   width: 98%;
+   border: 1px solid #ccc;
+   box-shadow: 0 2px 3px #ccc;
+   padding: 8px;
+   margin: 8px auto;
+   box-sizing: border-box;
+   border-radius: 3px;
+ }
+ .container > * {
+    padding-top: 0;
+ }
+ .container h4 {
+    border: 1px solid salmon;
+   font-size : 1.4rem;
+   padding : 0;
+   color: #000;
+ }
+ .container .subtitle{
+   text-transform : capitalize;
+   font-weight : 500;
+   font-size : 1.1rem;
+ }
+ .container ul{
+   list-style : square;
+ }
+ .container .subtitle strong {
+    color : #84c318 ;
+    font-size: 1.3rem;
+ }
+ 
