@@ -45,7 +45,6 @@ class BurgerBuilder extends React.Component {
   }
 
   render() {
-    console.log(this.props.match.params);
     const disableInfo = {
       ...this.state.ingredients,
     };
@@ -110,27 +109,9 @@ class BurgerBuilder extends React.Component {
     for(let i in this.state.ingredients){
       queryprams.push(encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i]))
     }
+    queryprams.push(encodeURIComponent('price') + "=" + (this.state.totalPrice));
     const queryString = queryprams.join("&");
-    this.props.history.push({ pathname: "/checkout", search: "?"+queryString , price : 4});
-  };
-
-  sendDataToServer = () => {
-    this.setState({ loading: true, purchasing: true });
-    // this.props.continue(this.state.ingredients);
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Abdou aoufi",
-        adress: { street: "Test street", zipCode: "35000" },
-        email: "test@gmail.com",
-      },
-      deliverMethod: "fatest",
-    };
-    axios.post("/orders.json", order).then((response) => {
-      this.setState({ loading: false, purchasing: false });
-      // this.props.history.push({ pathname: "/checkout" });
-    });
+    this.props.history.push({ pathname: "/checkout", search: "?"+queryString });
   };
 
   purshaseHandler = () => {

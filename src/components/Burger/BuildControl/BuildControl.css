@@ -4,12 +4,14 @@
       width: auto;
       padding-left: 3rem;
       padding-right: 3rem;
-      margin: 1rem auto;
+      margin:  auto;
       border-radius: .5rem;
       background-color: #ffa45c;
 }
 
 .BuildControlInnerParent {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
       display: flex;
       justify-content: center;
       flex-direction: column;

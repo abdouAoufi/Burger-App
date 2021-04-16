@@ -1,8 +1,8 @@
 .Burger {
-      margin:  auto;
+      margin: 3rem auto;
       width: auto;
       /* margin: auto; */
-      height: 250px;
+      height: 280px;
       overflow: auto;
       text-align: center;
       font-weight: bold;
@@ -17,7 +17,7 @@
 @media (min-width: 1281px) {
       .Burger {
 
-            width: 450px;
+            width: 370px;
       }
 
       /* CSS */
@@ -36,7 +36,7 @@
 
       .Burger {
 
-            width: 450px;
+            width: 390px;
       }
 
 }

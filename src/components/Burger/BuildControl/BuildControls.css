@@ -1,5 +1,5 @@
 .BuildControls {
-      width: 90%;
+      width: 60%;
       background-color: #cf8f2e;
       display: flex;
       flex-flow: column;
@@ -7,7 +7,13 @@
       box-shadow: 0 2px 1px #CCC;
       margin: 1rem auto  ;
       padding: 10px 0;
-      border-radius: .5rem;
+      border-radius: .3rem;
+}
+
+@media (max-width : 700px){
+    .BuildControls{
+      width: 80%;
+    }
 }
 
 .OrderButton {
