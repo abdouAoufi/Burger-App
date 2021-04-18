@@ -20,5 +20,63 @@ let paramsString = "q=URLtils.searchParam&topic=api";
 let searchParams = new URLSearchParams(paramsString);
 
 for (let params of searchParams) {
-  console.log(params);
+  // console.log(params);
 }
+
+let talk = function () {
+  console.log(this.sound);
+};
+let bormir = {
+  speak: talk,
+  sound: "Bormir ! ",
+};
+
+let anotherObject = {
+  sound: "another Object",
+  blabber: bormir.speak,
+};
+
+// bormir.speak();
+// anotherObject.blabber();
+
+/*
+? Bubble search 
+loop from the first element to the last 
+if the left element > right element 
+swap (right , left )
+3 , 1 , 2 , 4 
+if(left:3>left:1){
+  left = right : 1
+  right = left : 
+}
+
+
+else 
+right ++ 
+
+*/
+
+function sort(values) {
+  let a = 0 ; 
+  let b = 0 ;
+  let swap = 0 ;
+  for( a  = 0 ; a < values.length -1 ; a++){
+    for(b = 0 ; b < values.length -1 ; b++){
+      if(values[b] > values[b+1]){
+        swap = values[b];
+        values[b] = values[b+1]
+        values[b+1] = swap ;
+      }
+    }
+  }
+  console.log(values)
+}
+
+// sort([20, 10 , 30 , 50])
+
+
+function hasNumber(myString) {
+  return /\d/.test(myString);
+}
+
+console.log(hasNumber("afy88"))

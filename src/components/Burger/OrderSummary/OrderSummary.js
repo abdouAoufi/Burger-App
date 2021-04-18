@@ -15,6 +15,7 @@ const OrderSummary = (props) => {
   });
   return (
     <Aux>
+      <div>
       <h3>Your order summary </h3>
       <p>A delisous burger with rhe following ingredients : </p>
       <ul>{ingredientSummary}</ul>
@@ -34,6 +35,7 @@ const OrderSummary = (props) => {
      <Button clicked={props.purchaseContinue} btnType="Success">
         CONTINUE
       </Button>
+      </div>
     </Aux>
   );
 };

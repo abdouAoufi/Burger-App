@@ -6,6 +6,7 @@ import cssClasses from "./Button.css";
 
 const button = (props) => (
   <button
+    disabled={props.disabled}
     onClick={props.clicked}
     className={[cssClasses.Button, cssClasses[props.btnType]].join(' ')} 
   >

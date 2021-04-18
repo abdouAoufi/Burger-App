@@ -16,6 +16,14 @@ export default class ContactData extends Component {
           placeholder: "Your name",
         },
         value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 20,
+          hasNum: false,
+        },
+        valid: false,
+        touched: false,
       },
       email: {
         elementType: "input",
@@ -24,6 +32,14 @@ export default class ContactData extends Component {
           placeholder: "Your email",
         },
         value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 20,
+          hasNum: true,
+        },
+        valid: false,
+        touched: false,
       },
       street: {
         elementType: "input",
@@ -32,13 +48,30 @@ export default class ContactData extends Component {
           placeholder: "Street",
         },
         value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 15,
+          hasNum: true,
+        },
+        valid: false,
+        touched: false,
       },
       zipCode: {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeholder: "ZIP code",
+          placeholder: "zip code",
         },
+        value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 5,
+          hasNum: true,
+        },
+        valid: false,
+        touched: false,
       },
       country: {
         elementType: "input",
@@ -47,6 +80,14 @@ export default class ContactData extends Component {
           placeholder: "Country",
         },
         value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 10,
+          hasNum: false,
+        },
+        valid: false,
+        touched: false,
       },
       deliveryMethod: {
         elementType: "select",
@@ -56,27 +97,58 @@ export default class ContactData extends Component {
             { value: "cheapest", displayValue: "Cheapest" },
           ],
         },
-        value: "",
+        value: "fastest",
+        valid: true,
+        validation: {
+          required: false,
+        },
       },
     },
+    formIsValid : false ,
   };
 
+  checkValidation(value, rules) {
+    let isValid = false;
+    if (rules.required) {
+      isValid = value.trim() !== "";
+    }
+    if (!rules.hasNum) {
+      isValid = !this.hasNumber(value);
+    }
+    if (rules.minLength) {
+      isValid = value.length >= rules.minLength;
+
+      // if (!rules.hasNum && isValid) {
+      //   isValid = !this.hasNumber(value);
+      //   console.log("the text must not has numbers");
+      // }
+      if (rules.maxLength && isValid) {
+        isValid = value.length <= rules.maxLength;
+        if (!isValid) console.log("max length reached");
+      }
+    }
+
+    return isValid;
+  }
   orderHandler = (event) => {
     event.preventDefault();
-    this.sendDataToServer();
+    const formData = {};
+    for (let formElementIdentifier in this.state.orderForm) {
+      formData[formElementIdentifier] = this.state.orderForm[
+        formElementIdentifier
+      ].value;
+    }
+ 
+      this.sendDataToServer(formData);
+  
   };
 
-  sendDataToServer = () => {
+  sendDataToServer = (orderData) => {
     this.setState({ loading: true });
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price,
-      customer: {
-        name: "Abdou aoufi",
-        email: "test@gmail.com",
-        adress: { street: "Test street", zipCode: "35000" },
-      },
-      deliverMethod: "fatest",
+      orderData,
     };
     axios
       .post("/orders.json", order)
@@ -84,12 +156,11 @@ export default class ContactData extends Component {
         this.setState({ loading: false });
         this.props.history.replace("/");
       })
-      .catch((error) => {
-        
-      });
+      .catch((error) => {});
   };
 
   render() {
+    console.log(this.state.formIsValid)
     const formElemntArray = [];
     for (let key in this.state.orderForm) {
       formElemntArray.push({
@@ -97,20 +168,23 @@ export default class ContactData extends Component {
         setup: this.state.orderForm[key],
       });
     }
-    console.log(formElemntArray);
     let form = (
-      <form>
+      <form onSubmit={this.orderHandler}>
         {formElemntArray.map((formElement) => (
           <InputElement
+            changed={(event) => {
+              this.inputChangedHandler(event, formElement.id);
+            }}
+            touched={formElement.setup.touched}
+            shouldValidate={formElement.setup.validation}
+            invalid={!formElement.setup.valid}
             key={formElement.id}
             elementType={formElement.setup.elementType}
             elementConfig={formElement.setup.elementConfig}
             value={formElement.setup.value}
           />
         ))}
-        <Button clicked={this.orderHandler} btnType="Success">
-          ORDER
-        </Button>
+        <Button disabled={! this.state.formIsValid} clicked={(event) => {this.orderHandler(event)}} btnType="Success">ORDER</Button>
       </form>
     );
     if (this.state.loading) {
@@ -122,5 +196,30 @@ export default class ContactData extends Component {
         {form}
       </div>
     );
+  }
+  inputChangedHandler = (event, inputIdentifier) => {
+    const updatedOrderForm = {
+      ...this.state.orderForm, // ?  first clone {left side }
+    };
+    const updatedElemnt = {
+      ...updatedOrderForm[inputIdentifier], // ?  deep clone  {right side}
+    };
+    updatedElemnt.value = event.target.value;
+    updatedElemnt.valid = this.checkValidation(
+      updatedElemnt.value,
+      updatedElemnt.validation
+    );
+    updatedElemnt.touched = true;
+    updatedOrderForm[inputIdentifier] = updatedElemnt;
+    let vld = true ;
+    for(let key in updatedOrderForm){
+      vld = updatedOrderForm[key].valid && vld ;
+    }
+    this.setState({   orderForm: updatedOrderForm  });
+    this.setState({   formIsValid: vld  });
+ 
+  };
+  hasNumber(myString) {
+    return /\d/.test(myString);
   }
 }

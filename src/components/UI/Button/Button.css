@@ -15,8 +15,15 @@
     padding-left: 0;
 }
 
+ button:disabled {
+       opacity: 0.5;
+}
+
 .Success {
     color: #5C9210;
+}
+.Disabled{
+    color: salmon;
 }
 
 .Danger {
