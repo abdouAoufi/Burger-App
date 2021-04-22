@@ -1,3 +1,4 @@
+/* jshint ignore:start */ 
 const prices = {
   salad: 0.5,
   cheese: 0.4,
@@ -92,3 +93,51 @@ for (let i in this.state.ingredients) {
 }
 queryprams.push(encodeURIComponent("price") + "=" + this.state.totalPrice);
 const queryString = queryprams.join("&");
+
+// const addIngredientHandler = (type) => {
+//   const oldCount = this.state.ingredients[type]; // salad
+//   const updatedCounted = oldCount + 1; // 2
+//   const updatedIngredient = {
+//     ...this.state.ingredients, // ! original array
+//   };
+//   updatedIngredient[type] = updatedCounted; // update salad elemtnt
+//   const priceAddition = INGREDIENT_PRICE[type]; // get price of salad
+//   const oldPrice = this.state.totalPrice; // get the old total price
+//   const newPrice = oldPrice + priceAddition; // add to it the addition
+//   this.setState({
+//     totalPrice: newPrice,
+//     ingredients: updatedIngredient,
+//   });
+//   this.updatePurshase(updatedIngredient);
+// };
+
+// const removeIngredientHandler = (type) => {
+//   const oldCount = this.state.ingredients[type];
+//   const updatedCounted = oldCount - 1;
+//   const updatedIngredient = {
+//     ...this.state.ingredients,
+//   };
+//   updatedIngredient[type] = updatedCounted;
+//   const priceAddition = INGREDIENT_PRICE[type];
+//   const oldPrice = this.state.totalPrice;
+//   if (oldCount <= 0) {
+//     return;
+//   }
+//   const newPrice = oldPrice - priceAddition;
+//   this.setState({
+//     totalPrice: newPrice,
+//     ingredients: updatedIngredient,
+//   });
+//   this.updatePurshase(updatedIngredient);
+// };
+
+  // updatePurshase(ingredient) {
+  //   const sum = Object.keys(ingredient)
+  //     .map((igKey) => {
+  //       return ingredient[igKey];
+  //     })
+  //     .reduce((sum, el) => {
+  //       return sum + el;
+  //     }, 0); // if the sum of all ingredients
+  //   this.setState({ pushasble: sum > 0 });
+  // }
