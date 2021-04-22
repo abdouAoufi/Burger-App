@@ -80,3 +80,15 @@ function hasNumber(myString) {
 }
 
 console.log(hasNumber("afy88"))
+
+
+const queryprams = [];
+for (let i in this.state.ingredients) {
+  queryprams.push(
+    encodeURIComponent(i) +
+      "=" +
+      encodeURIComponent(this.state.ingredients[i])
+  );
+}
+queryprams.push(encodeURIComponent("price") + "=" + this.state.totalPrice);
+const queryString = queryprams.join("&");

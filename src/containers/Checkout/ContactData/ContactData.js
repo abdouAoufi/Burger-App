@@ -4,8 +4,9 @@ import cssClasses from "./ContactData.css";
 import axios from "../../../axios-orders";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import InputElement from "../../../components/UI/Input/Input";
+import { connect } from "react-redux";
 
-export default class ContactData extends Component {
+class ContactData extends Component {
   state = {
     loading: false,
     orderForm: {
@@ -104,7 +105,7 @@ export default class ContactData extends Component {
         },
       },
     },
-    formIsValid : false ,
+    formIsValid: false,
   };
 
   checkValidation(value, rules) {
@@ -112,22 +113,13 @@ export default class ContactData extends Component {
     if (rules.required) {
       isValid = value.trim() !== "";
     }
-    if (!rules.hasNum) {
-      isValid = !this.hasNumber(value);
-    }
     if (rules.minLength) {
       isValid = value.length >= rules.minLength;
-
-      // if (!rules.hasNum && isValid) {
-      //   isValid = !this.hasNumber(value);
-      //   console.log("the text must not has numbers");
-      // }
       if (rules.maxLength && isValid) {
         isValid = value.length <= rules.maxLength;
         if (!isValid) console.log("max length reached");
       }
     }
-
     return isValid;
   }
   orderHandler = (event) => {
@@ -138,15 +130,13 @@ export default class ContactData extends Component {
         formElementIdentifier
       ].value;
     }
- 
-      this.sendDataToServer(formData);
-  
+    this.sendDataToServer(formData);
   };
 
   sendDataToServer = (orderData) => {
     this.setState({ loading: true });
     const order = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ings,
       price: this.props.price,
       orderData,
     };
@@ -160,7 +150,7 @@ export default class ContactData extends Component {
   };
 
   render() {
-    console.log(this.state.formIsValid)
+    // console.log(this.state.formIsValid);
     const formElemntArray = [];
     for (let key in this.state.orderForm) {
       formElemntArray.push({
@@ -184,7 +174,15 @@ export default class ContactData extends Component {
             value={formElement.setup.value}
           />
         ))}
-        <Button disabled={! this.state.formIsValid} clicked={(event) => {this.orderHandler(event)}} btnType="Success">ORDER</Button>
+        <Button
+          disabled={!this.state.formIsValid}
+          clicked={(event) => {
+            this.orderHandler(event);
+          }}
+          btnType="Success"
+        >
+          ORDER
+        </Button>
       </form>
     );
     if (this.state.loading) {
@@ -211,15 +209,23 @@ export default class ContactData extends Component {
     );
     updatedElemnt.touched = true;
     updatedOrderForm[inputIdentifier] = updatedElemnt;
-    let vld = true ;
-    for(let key in updatedOrderForm){
-      vld = updatedOrderForm[key].valid && vld ;
+    let vld = true;
+    for (let key in updatedOrderForm) {
+      vld = updatedOrderForm[key].valid && vld;
     }
-    this.setState({   orderForm: updatedOrderForm  });
-    this.setState({   formIsValid: vld  });
- 
+    this.setState({ orderForm: updatedOrderForm });
+    this.setState({ formIsValid: vld });
   };
   hasNumber(myString) {
     return /\d/.test(myString);
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice,
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);
