@@ -1,4 +1,4 @@
-/* jshint ignore:start */ 
+/* jshint ignore:start */
 const prices = {
   salad: 0.5,
   cheese: 0.4,
@@ -58,41 +58,37 @@ right ++
 */
 
 function sort(values) {
-  let a = 0 ; 
-  let b = 0 ;
-  let swap = 0 ;
-  for( a  = 0 ; a < values.length -1 ; a++){
-    for(b = 0 ; b < values.length -1 ; b++){
-      if(values[b] > values[b+1]){
+  let a = 0;
+  let b = 0;
+  let swap = 0;
+  for (a = 0; a < values.length - 1; a++) {
+    for (b = 0; b < values.length - 1; b++) {
+      if (values[b] > values[b + 1]) {
         swap = values[b];
-        values[b] = values[b+1]
-        values[b+1] = swap ;
+        values[b] = values[b + 1];
+        values[b + 1] = swap;
       }
     }
   }
-  console.log(values)
+  console.log(values);
 }
 
 // sort([20, 10 , 30 , 50])
-
 
 function hasNumber(myString) {
   return /\d/.test(myString);
 }
 
-console.log(hasNumber("afy88"))
+// console.log(hasNumber("afy88"));
 
-
-const queryprams = [];
-for (let i in this.state.ingredients) {
-  queryprams.push(
-    encodeURIComponent(i) +
-      "=" +
-      encodeURIComponent(this.state.ingredients[i])
-  );
-}
-queryprams.push(encodeURIComponent("price") + "=" + this.state.totalPrice);
-const queryString = queryprams.join("&");
+// const queryprams = [];
+// for (let i in this.state.ingredients) {
+//   queryprams.push(
+//     encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i])
+//   );
+// }
+// queryprams.push(encodeURIComponent("price") + "=" + this.state.totalPrice);
+// const queryString = queryprams.join("&");
 
 // const addIngredientHandler = (type) => {
 //   const oldCount = this.state.ingredients[type]; // salad
@@ -131,13 +127,42 @@ const queryString = queryprams.join("&");
 //   this.updatePurshase(updatedIngredient);
 // };
 
-  // updatePurshase(ingredient) {
-  //   const sum = Object.keys(ingredient)
-  //     .map((igKey) => {
-  //       return ingredient[igKey];
-  //     })
-  //     .reduce((sum, el) => {
-  //       return sum + el;
-  //     }, 0); // if the sum of all ingredients
-  //   this.setState({ pushasble: sum > 0 });
-  // }
+// updatePurshase(ingredient) {
+//   const sum = Object.keys(ingredient)
+//     .map((igKey) => {
+//       return ingredient[igKey];
+//     })
+//     .reduce((sum, el) => {
+//       return sum + el;
+//     }, 0); // if the sum of all ingredients
+//   this.setState({ pushasble: sum > 0 });
+// }
+
+const persons = [];
+
+// for (let i = 0; i < 10; i++) {
+//   let age = Math.floor(Math.random() * 100) ;
+//   persons.push({ age: age });
+// }
+console.log(persons)
+function binarySearch(list, target) {
+  let start = 0; // 0
+  let end = list.length; // 5
+
+  while (start <= end) {
+    let middle = Math.floor((start + end) / 2);
+    console.log("MIDDLE =>", middle);
+    if (list[middle].age === target) {
+      return true;
+    } else if (list[list.length - 1].age === target) {
+      return true;
+    } else if (list[middle].age < target) {
+      start = middle + 1;
+    } else {
+      end = middle - 1;
+    }
+  }
+  return false;
+}
+
+// console.log(binarySearch(persons, 19));

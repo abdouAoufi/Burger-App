@@ -49,7 +49,6 @@ export const initIngredients = () => {
         Object.keys(ing).forEach((singleIngrident) => {
           price += INGREDIENT_PRICE[singleIngrident] * ing[singleIngrident];
         });
-        console.log(price);
         dispatch(setIngredients(ing, price));
       })
       .catch((error) => {

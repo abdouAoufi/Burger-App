@@ -5,7 +5,8 @@ import axios from "../../../axios-orders";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import InputElement from "../../../components/UI/Input/Input";
 import { connect } from "react-redux";
-
+import withErrorHandler from "../../../hoc/WithErrorHandler/WithErrorHandler";
+import * as actions from "../../../store/actions/orderActions";
 class ContactData extends Component {
   state = {
     loading: false,
@@ -42,68 +43,68 @@ class ContactData extends Component {
         valid: false,
         touched: false,
       },
-      street: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Street",
-        },
-        value: "",
-        validation: {
-          required: true,
-          minLength: 5,
-          maxLength: 15,
-          hasNum: true,
-        },
-        valid: false,
-        touched: false,
-      },
-      zipCode: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "zip code",
-        },
-        value: "",
-        validation: {
-          required: true,
-          minLength: 5,
-          maxLength: 5,
-          hasNum: true,
-        },
-        valid: false,
-        touched: false,
-      },
-      country: {
-        elementType: "input",
-        elementConfig: {
-          type: "text",
-          placeholder: "Country",
-        },
-        value: "",
-        validation: {
-          required: true,
-          minLength: 5,
-          maxLength: 10,
-          hasNum: false,
-        },
-        valid: false,
-        touched: false,
-      },
-      deliveryMethod: {
-        elementType: "select",
-        elementConfig: {
-          option: [
-            { value: "fastest", displayValue: "Fastest" },
-            { value: "cheapest", displayValue: "Cheapest" },
-          ],
-        },
-        value: "fastest",
-        valid: true,
-        validation: {
-          required: false,
-        },
-      },
+      // street: {
+      //   elementType: "input",
+      //   elementConfig: {
+      //     type: "text",
+      //     placeholder: "Street",
+      //   },
+      //   value: "",
+      //   validation: {
+      //     required: true,
+      //     minLength: 5,
+      //     maxLength: 15,
+      //     hasNum: true,
+      //   },
+      //   valid: false,
+      //   touched: false,
+      // },
+      // zipCode: {
+      //   elementType: "input",
+      //   elementConfig: {
+      //     type: "text",
+      //     placeholder: "zip code",
+      //   },
+      //   value: "",
+      //   validation: {
+      //     required: true,
+      //     minLength: 5,
+      //     maxLength: 5,
+      //     hasNum: true,
+      //   },
+      //   valid: false,
+      //   touched: false,
+      // },
+      // country: {
+      //   elementType: "input",
+      //   elementConfig: {
+      //     type: "text",
+      //     placeholder: "Country",
+      //   },
+      //   value: "",
+      //   validation: {
+      //     required: true,
+      //     minLength: 5,
+      //     maxLength: 10,
+      //     hasNum: false,
+      //   },
+      //   valid: false,
+      //   touched: false,
+      // },
+      // deliveryMethod: {
+      //   elementType: "select",
+      //   elementConfig: {
+      //     option: [
+      //       { value: "fastest", displayValue: "Fastest" },
+      //       { value: "cheapest", displayValue: "Cheapest" },
+      //     ],
+      //   },
+      //   value: "fastest",
+      //   valid: true,
+      //   validation: {
+      //     required: false,
+      //   },
+      // },
     },
     formIsValid: false,
   };
@@ -130,7 +131,12 @@ class ContactData extends Component {
         formElementIdentifier
       ].value;
     }
-    this.sendDataToServer(formData);
+    const order = {
+      ingredients: this.props.ings,
+      price: this.props.price,
+      orderData: formData,
+    };
+    this.props.onOrderBurger(order);
   };
 
   sendDataToServer = (orderData) => {
@@ -150,7 +156,6 @@ class ContactData extends Component {
   };
 
   render() {
-    // console.log(this.state.formIsValid);
     const formElemntArray = [];
     for (let key in this.state.orderForm) {
       formElemntArray.push({
@@ -185,7 +190,7 @@ class ContactData extends Component {
         </Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -223,9 +228,19 @@ class ContactData extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice,
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    loading: state.order.loading,
   };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactData, axios));
