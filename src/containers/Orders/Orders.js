@@ -11,40 +11,44 @@ class Orders extends Component {
     loading: true,
   };
   componentWillMount() {
-    this.props.onFetchOrders();
+    this.props.onFetchOrders(this.props.token);
   }
   // this.setState({ orders: this.props.orders });
-  
-  
+
   render() {
-    console.log(this.state.orders);
-    return (
-      <div>
-        {this.props.orders.map((order) => {
-          //  console.log(order.ingredients);
-          return (
-            <Order
-              id={order.id}
-              price={order.price}
-              ingredients={order.ingredients}
-              key={order.id}
-            />
-          );
-        })}
-      </div>
-    );
+    let ordersComing = <h3 style={{ textAlign: "center" }}>loading .... </h3>;
+    if (this.props.orders.length > 0) {
+      ordersComing = this.props.orders.map((order) => {
+        return (
+          <Order
+            id={order.id}
+            price={order.price}
+            ingredients={order.ingredients}
+            key={order.id}
+          />
+        );
+      });
+    } else if (this.props.token === null) {
+      ordersComing = (
+        <h3 style={{ textAlign: "center", color: "red" }}>
+          Error getting orders try to log in{" "}
+        </h3>
+      );
+    }
+    return <div>{ordersComing}</div>;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     orders: state.order.orders,
+    token: state.auth.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchOrders: () => dispatch(actions.fetchOrders()),
+    onFetchOrders: (token) => dispatch(actions.fetchOrders(token)),
   };
 };
 

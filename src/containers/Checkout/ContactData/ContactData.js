@@ -43,68 +43,68 @@ class ContactData extends Component {
         valid: false,
         touched: false,
       },
-      // street: {
-      //   elementType: "input",
-      //   elementConfig: {
-      //     type: "text",
-      //     placeholder: "Street",
-      //   },
-      //   value: "",
-      //   validation: {
-      //     required: true,
-      //     minLength: 5,
-      //     maxLength: 15,
-      //     hasNum: true,
-      //   },
-      //   valid: false,
-      //   touched: false,
-      // },
-      // zipCode: {
-      //   elementType: "input",
-      //   elementConfig: {
-      //     type: "text",
-      //     placeholder: "zip code",
-      //   },
-      //   value: "",
-      //   validation: {
-      //     required: true,
-      //     minLength: 5,
-      //     maxLength: 5,
-      //     hasNum: true,
-      //   },
-      //   valid: false,
-      //   touched: false,
-      // },
-      // country: {
-      //   elementType: "input",
-      //   elementConfig: {
-      //     type: "text",
-      //     placeholder: "Country",
-      //   },
-      //   value: "",
-      //   validation: {
-      //     required: true,
-      //     minLength: 5,
-      //     maxLength: 10,
-      //     hasNum: false,
-      //   },
-      //   valid: false,
-      //   touched: false,
-      // },
-      // deliveryMethod: {
-      //   elementType: "select",
-      //   elementConfig: {
-      //     option: [
-      //       { value: "fastest", displayValue: "Fastest" },
-      //       { value: "cheapest", displayValue: "Cheapest" },
-      //     ],
-      //   },
-      //   value: "fastest",
-      //   valid: true,
-      //   validation: {
-      //     required: false,
-      //   },
-      // },
+      street: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Street",
+        },
+        value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 15,
+          hasNum: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      zipCode: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "zip code",
+        },
+        value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 5,
+          hasNum: true,
+        },
+        valid: false,
+        touched: false,
+      },
+      country: {
+        elementType: "input",
+        elementConfig: {
+          type: "text",
+          placeholder: "Country",
+        },
+        value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 10,
+          hasNum: false,
+        },
+        valid: false,
+        touched: false,
+      },
+      deliveryMethod: {
+        elementType: "select",
+        elementConfig: {
+          option: [
+            { value: "fastest", displayValue: "Fastest" },
+            { value: "cheapest", displayValue: "Cheapest" },
+          ],
+        },
+        value: "fastest",
+        valid: true,
+        validation: {
+          required: false,
+        },
+      },
     },
     formIsValid: false,
   };

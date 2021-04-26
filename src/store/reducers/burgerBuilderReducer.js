@@ -10,6 +10,7 @@ const initialState = {
   },
   totalPrice: 4,
   error: false,
+  building: false,
 };
 
 const addIngredient = (state, action) => {
@@ -20,6 +21,7 @@ const addIngredient = (state, action) => {
     ingredients: updatedIngredient,
     totalPrice:
       state.totalPrice + state.INGREDIENT_PRICE[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updatedState);
 };
@@ -32,6 +34,7 @@ const removeIngredient = (state, action) => {
     ingredients: updatedIngredientR,
     totalPrice:
       state.totalPrice - state.INGREDIENT_PRICE[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updatedStateR);
 };
@@ -41,6 +44,7 @@ const getIngredient = (state, action) => {
     ingredients: action.ingredients,
     totalPrice: 4, //state.totalPrice + action.price,
     error: false,
+    building: false,
   });
 };
 
@@ -52,10 +56,14 @@ const errorOccured = () => {
 
 const burgerBuilder = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.ADD_INGREDIENT: return addIngredient(state, action);
-    case actionTypes.REMOVE_INGREDIENT: return removeIngredient(state, action);
-    case actionTypes.GET_INGREDIENTS: return getIngredient(state, action);
-    case actionTypes.ERROR_OCURRED: return errorOccured();
+    case actionTypes.ADD_INGREDIENT:
+      return addIngredient(state, action);
+    case actionTypes.REMOVE_INGREDIENT:
+      return removeIngredient(state, action);
+    case actionTypes.GET_INGREDIENTS:
+      return getIngredient(state, action);
+    case actionTypes.ERROR_OCURRED:
+      return errorOccured();
     default:
       return state;
   }

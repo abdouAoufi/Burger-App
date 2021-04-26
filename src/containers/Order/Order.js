@@ -7,7 +7,9 @@ const Order = (props) => {
     ingredients.push({ name: key, amount: props.ingredients[key] });
   }
 
-  const ingredientOutput = ingredients.map(ig => (<li key={ig.name}>{ig.name + " : " + ig.amount}</li>))
+  const ingredientOutput = ingredients.map((ig) => (
+    <li key={ig.name}>{ig.name + " : " + ig.amount}</li>
+  ));
   return (
     <div className={cssClasses.Order}>
       <div className={cssClasses.container}>

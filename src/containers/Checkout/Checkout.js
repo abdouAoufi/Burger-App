@@ -3,15 +3,11 @@ import CheckoutSummary from "../Order/CheckoutSummary/CheckoutSummary";
 import { Route, Redirect } from "react-router-dom";
 import ContactData from "./ContactData/ContactData";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/index"
 class Checkout extends Component {
   checkoutCanceledHandler = () => {
     this.props.history.goBack();
   };
 
-  componentWillMount() {
-    // this.props.onInitPurchase();
-  }
   checkoutContinuedHandler = () => {
     this.props.history.replace("/checkout/contact-data"); // because checkout is direct child to the parent
   };
