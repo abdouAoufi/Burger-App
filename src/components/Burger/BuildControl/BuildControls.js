@@ -11,7 +11,7 @@ const controls = [
 ];
 
 const buildControls = (props) => {
-  let combination = props.purchasble && props.isAuth;
+  // let combination = props.purchasble && props.isAuth;
   return (
     <div className={cssClasses.BuildControls}>
       <strong>Current Price : {props.price.toFixed(2)} $ </strong>

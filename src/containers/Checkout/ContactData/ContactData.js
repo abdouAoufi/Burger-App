@@ -7,6 +7,7 @@ import InputElement from "../../../components/UI/Input/Input";
 import { connect } from "react-redux";
 import withErrorHandler from "../../../hoc/WithErrorHandler/WithErrorHandler";
 import * as actions from "../../../store/actions/orderActions";
+import { updateObject , checkValidity} from "../../../shared/utility";
 class ContactData extends Component {
   state = {
     loading: false,
@@ -27,7 +28,7 @@ class ContactData extends Component {
         valid: false,
         touched: false,
       },
-      email: {
+      /*  email: {
         elementType: "input",
         elementConfig: {
           type: "email",
@@ -104,25 +105,12 @@ class ContactData extends Component {
         validation: {
           required: false,
         },
-      },
+      },*/
     },
     formIsValid: false,
   };
 
-  checkValidation(value, rules) {
-    let isValid = false;
-    if (rules.required) {
-      isValid = value.trim() !== "";
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength;
-      if (rules.maxLength && isValid) {
-        isValid = value.length <= rules.maxLength;
-        if (!isValid) console.log("max length reached");
-      }
-    }
-    return isValid;
-  }
+
   orderHandler = (event) => {
     event.preventDefault();
     const formData = {};
@@ -135,24 +123,9 @@ class ContactData extends Component {
       ingredients: this.props.ings,
       price: this.props.price,
       orderData: formData,
+      userId: this.props.userId,
     };
     this.props.onOrderBurger(order);
-  };
-
-  sendDataToServer = (orderData) => {
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.props.ings,
-      price: this.props.price,
-      orderData,
-    };
-    axios
-      .post("/orders.json", order)
-      .then((response) => {
-        this.setState({ loading: false });
-        this.props.history.replace("/");
-      })
-      .catch((error) => {});
   };
 
   render() {
@@ -201,19 +174,18 @@ class ContactData extends Component {
     );
   }
   inputChangedHandler = (event, inputIdentifier) => {
-    const updatedOrderForm = {
-      ...this.state.orderForm, // ?  first clone {left side }
-    };
-    const updatedElemnt = {
-      ...updatedOrderForm[inputIdentifier], // ?  deep clone  {right side}
-    };
-    updatedElemnt.value = event.target.value;
-    updatedElemnt.valid = this.checkValidation(
-      updatedElemnt.value,
-      updatedElemnt.validation
-    );
-    updatedElemnt.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedElemnt;
+    const updatedElemnt = updateObject(this.state.orderForm[inputIdentifier], {
+      value: event.target.value,
+      valid: checkValidity(
+        event.target.value,
+        this.state.orderForm[inputIdentifier].validation
+      ),
+      touched: true,
+    });
+
+    const updatedOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updatedElemnt,
+    });
     let vld = true;
     for (let key in updatedOrderForm) {
       vld = updatedOrderForm[key].valid && vld;
@@ -231,6 +203,7 @@ const mapStateToProps = (state) => {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
+    userId: state.auth.userId,
   };
 };
 

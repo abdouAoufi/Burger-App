@@ -6,6 +6,7 @@ import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { updateObject , checkValidity} from "../../shared/utility";
 
 class Auth extends Component {
   state = {
@@ -43,12 +44,6 @@ class Auth extends Component {
     isSignUp: true,
   };
 
-  componentDidMount() {
-    if (!this.props.buidingBurger) {
-      // this.props.onSetAuthRedirectPath();
-    }
-  }
-
   swithAuthModeHandler = () => {
     this.setState((prevState) => {
       return { isSignUp: !prevState.isSignUp };
@@ -74,6 +69,7 @@ class Auth extends Component {
       if (toCheckout) {
         redirect = <Redirect to="/checkout" />;
       } else {
+        console.log("redirecting to home");
         redirect = <Redirect to="/" />;
       }
     }
@@ -130,35 +126,17 @@ class Auth extends Component {
   }
 
   inputChangedHandler = (event, controlName) => {
-    const updatedControls = {
-      ...this.state.controls,
-      [controlName]: {
-        ...this.state.controls[controlName],
-        value: event.target.value,
-        valid: this.checkValidation(
-          event.target.value,
-          this.state.controls[controlName].validation
-        ),
-        touched: true,
-      },
-    };
+    const updatedElement = updateObject(this.state.controls[controlName], {
+      value: event.target.value,
+      valid: checkValidity(
+        event.target.value,
+        this.state.controls[controlName].validation
+      ),
+      touched: true,
+    });
+    const updatedControls = updateObject(this.state.controls , {[controlName] : updatedElement} )
     this.setState({ controls: updatedControls });
   };
-
-  checkValidation(value, rules) {
-    let isValid = false;
-    if (rules.required) {
-      isValid = value.trim() !== "";
-    }
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength;
-      if (rules.maxLength && isValid) {
-        isValid = value.length <= rules.maxLength;
-        if (!isValid) console.log("max length reached");
-      }
-    }
-    return isValid;
-  }
 }
 
 const mapStateToProps = (state) => {
@@ -176,7 +154,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, isSignUp) =>
       dispatch(actions.auth(email, password, isSignUp)),
-    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

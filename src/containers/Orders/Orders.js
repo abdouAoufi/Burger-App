@@ -4,16 +4,14 @@ import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/WithErrorHandler/WithErrorHandler";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import orders from "../../store/reducers/ordersResucer";
 class Orders extends Component {
   state = {
     orders: [],
     loading: true,
   };
   componentWillMount() {
-    this.props.onFetchOrders(this.props.token);
+    this.props.onFetchOrders(this.props.token, this.props.userId);
   }
-  // this.setState({ orders: this.props.orders });
 
   render() {
     let ordersComing = <h3 style={{ textAlign: "center" }}>loading .... </h3>;
@@ -34,6 +32,9 @@ class Orders extends Component {
           Error getting orders try to log in{" "}
         </h3>
       );
+      setTimeout(() => {
+        this.props.history.replace("/");
+      }, 1000);
     }
     return <div>{ordersComing}</div>;
   }
@@ -43,12 +44,14 @@ const mapStateToProps = (state) => {
   return {
     orders: state.order.orders,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchOrders: (token) => dispatch(actions.fetchOrders(token)),
+    onFetchOrders: (token, userId) =>
+      dispatch(actions.fetchOrders(token, userId)),
   };
 };
 

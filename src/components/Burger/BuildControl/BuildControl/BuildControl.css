@@ -1,19 +1,24 @@
 .BuildControl {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin: 5px 0;
+    width: 95%;
 }
 
 .BuildControl button {
     display: block;
     font: inherit;
     padding: 5px;
-    margin: 0 5px;
+    margin: 0 8px;
     width: 80px;
     border: 1px solid #AA6817;
     cursor: pointer;
     outline: none;
+}
+
+.BuildControl .buttonParent{
+    display: flex;
 }
 
 .BuildControl button:disabled {

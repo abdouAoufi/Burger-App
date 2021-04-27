@@ -72,12 +72,6 @@ export const checkAuthTimeOut = (expirationTime) => {
   };
 };
 
-export const setAuthRedirectPath = (path) => {
-  return {
-    type: actions.SER_AUTH_REDIRECT_PATH,
-    path: path,
-  };
-};
 
 export const authCheckState = () => {
   return (dispatch) => {
@@ -88,10 +82,8 @@ export const authCheckState = () => {
       const expirationTime = new Date(localStorage.getItem("expirationDate"));
       if (expirationTime > new Date()) {
         const userId = localStorage.getItem("userId");
-        console.log("we con log in ");
         dispatch(authSuccess(token, userId));
         const difference = expirationTime.getTime() - new Date().getTime();
-        console.log(expirationTime);
         dispatch(checkAuthTimeOut(difference / 1000));
       } else {
         dispatch(logout());

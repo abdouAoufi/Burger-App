@@ -1,5 +1,5 @@
 import * as actions from "../actions/actionTypes";
-import { updateObject } from "./utility";
+import { updateObject } from "../../shared/utility";
 const initialState = {
   token: null,
   userId: null,
@@ -22,9 +22,6 @@ const authSuccess = (state, action) => {
   });
 };
 
-const setAuthRedirectPath = (state, action) => {
-  return updateObject(state, { authRedirectPath: action.path });
-};
 const authLogout = (state, action) => {
   return updateObject(state, { token: null, userId: null });
 };
@@ -41,8 +38,6 @@ const authReducer = (state = initialState, action) => {
       return authFail(state, action);
     case actions.AUTH_LOGOUT:
       return authLogout(state, action);
-    case actions.SER_AUTH_REDIRECT_PATH:
-      return setAuthRedirectPath(state, action);
     default:
       return state;
   }
