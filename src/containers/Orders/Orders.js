@@ -1,44 +1,41 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Order from "../Order/Order";
 import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/WithErrorHandler/WithErrorHandler";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-class Orders extends Component {
-  state = {
-    orders: [],
-    loading: true,
-  };
-  componentWillMount() {
-    this.props.onFetchOrders(this.props.token, this.props.userId);
-  }
+const Orders = (props) => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  render() {
-    let ordersComing = <h3 style={{ textAlign: "center" }}>loading .... </h3>;
-    if (this.props.orders.length > 0) {
-      ordersComing = this.props.orders.map((order) => {
-        return (
-          <Order
-            id={order.id}
-            price={order.price}
-            ingredients={order.ingredients}
-            key={order.id}
-          />
-        );
-      });
-    } else if (this.props.token === null) {
-      ordersComing = (
-        <h3 style={{ textAlign: "center", color: "red" }}>
-          Error getting orders try to log in{" "}
-        </h3>
+  useEffect(() => {
+    props.onFetchOrders(props.token, props.userId);
+  }, []);
+
+  let ordersComing = <h3 style={{ textAlign: "center" }}>loading .... </h3>;
+  if (props.orders.length > 0) {
+    ordersComing = props.orders.map((order) => {
+      return (
+        <Order
+          id={order.id}
+          price={order.price}
+          ingredients={order.ingredients}
+          key={order.id}
+        />
       );
-      setTimeout(() => {
-        this.props.history.replace("/");
-      }, 1000);
-    }
-    return <div>{ordersComing}</div>;
+    });
+  } else if (props.token === null) {
+    ordersComing = (
+      <h3 style={{ textAlign: "center", color: "red" }}>
+        Error getting orders try to log in{" "}
+      </h3>
+    );
+    setTimeout(() => {
+      props.history.replace("/");
+    }, 1000);
   }
-}
+  return <div>{ordersComing}</div>;
+};
 
 const mapStateToProps = (state) => {
   return {

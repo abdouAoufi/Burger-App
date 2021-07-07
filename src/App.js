@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, Suspense } from "react";
 import Layout from "./hoc/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import { Switch, Route } from "react-router-dom";
@@ -7,46 +7,42 @@ import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
 import asyncComponent from "./hoc/AsyncComponent/asyncComponent";
 
-const asyncCheckout = asyncComponent(() => {
+const Checkout = React.lazy(() => {
   return import("./containers/Checkout/Checkout");
 });
 
-const asyncAuth = asyncComponent(() => {
+const Auth = React.lazy(() => {
   return import("./containers/Auth/Auth");
 });
 
-const asyncOrders = asyncComponent(() => {
+const Orders = React.lazy(() => {
   return import("./containers/Orders/Orders");
 });
-class App extends Component {
-  state = {
-    show: true,
-    continue: false,
-  };
-  componentDidMount() {
-    this.props.onTryAutoSignUp();
-  }
+const App = (props) => {
+  useEffect(() => {
+    props.onTryAutoSignUp();
+  }, []);
 
-  continueClicked = (ingredients) => {
-    console.log("continue clicked this is appearing from APP.JS", ingredients);
-  };
-
-  render() {
-    return (
-      <div>
-        <Layout>
+  return (
+    <div>
+      <Layout>
+        <Suspense fallback={<p>Loading ...</p>}>
           <Switch>
             <Route path="/" exact component={BurgerBuilder} />
-            <Route path="/auth" exact component={asyncAuth} />
-            <Route path="/checkout" component={asyncCheckout} />
-            <Route path="/orders" exact component={asyncOrders} />
+            <Route path="/auth" exact render={() => <Auth />} />
+            <Route
+              path="/checkout"
+              exact
+              render={() => <Checkout  />}
+            />
+            <Route path="/orders" exact render={() => <Orders />} />
             <Route path="/logout" exact component={Logout} />
           </Switch>
-        </Layout>
-      </div>
-    );
-  }
-}
+        </Suspense>
+      </Layout>
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

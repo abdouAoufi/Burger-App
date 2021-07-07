@@ -1,40 +1,35 @@
 /* jshint ignore:start */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Aux from "../Aux";
 import LayoutCss from "./layout.css";
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 import { connect } from "react-redux";
 
-class Layout extends React.Component {
-  state = {
-    showSideDrawer: false,
+const Layout = (props) => {
+  const [showSideDrawer, setShowSideDrawer] = useState(false);
+
+  const sideDrawerClosedHandler = () => {
+    setShowSideDrawer(!showSideDrawer);
   };
-  sideDrawerClosedHandler = () => {
-    this.setState({ showSideDrawer: false });
+  const sideDrawerHandler = () => {
+    setShowSideDrawer(!showSideDrawer);
   };
-  sideDrawerHandler = () => {
-    this.setState((prevState) => {
-      return { showSideDrawer: !prevState.showSideDrawer };
-    });
-  };
-  render() {
-    return (
-      <Aux>
-        <Toolbar
-          drawerToggleClick={this.sideDrawerHandler}
-          isAuth={this.props.isAuthinticated}
-        />
-        <SideDrawer
-         isAuth={this.props.isAuthinticated}
-          open={this.state.showSideDrawer}
-          closed={this.sideDrawerClosedHandler}
-        />
-        <main className={LayoutCss.Content}>{this.props.children}</main>{" "}
-      </Aux>
-    );
-  }
-}
+  return (
+    <Aux>
+      <Toolbar
+        drawerToggleClick={sideDrawerHandler}
+        isAuth={props.isAuthinticated}
+      />
+      <SideDrawer
+        isAuth={props.isAuthinticated}
+        open={showSideDrawer}
+        closed={sideDrawerClosedHandler}
+      />
+      <main className={LayoutCss.Content}>{props.children}</main>{" "}
+    </Aux>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
